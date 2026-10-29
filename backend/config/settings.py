@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     MAIL_FROM:str
     MAIL_PORT:str
     MAIL_SERVER:str
+    ORIGINS: str 
     
     #Add the SettingsConfigDict to read from the .env file
     model_config = SettingsConfigDict(
