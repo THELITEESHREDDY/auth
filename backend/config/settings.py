@@ -6,6 +6,11 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int
     ALGORITHM:str
     SECRET_KEY:str
+    MAIL_USERNAME:str
+    MAIL_PASSWORD:str
+    MAIL_FROM:str
+    MAIL_PORT:str
+    MAIL_SERVER:str
     
     #Add the SettingsConfigDict to read from the .env file
     model_config = SettingsConfigDict(

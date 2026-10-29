@@ -9,7 +9,8 @@ from pwdlib import PasswordHash
 from backend.config.settings import settings
 from backend.config.db_config import get_session
 from backend.auth.schema import Token,TokenData
-from backend.auth.schema import User,UserInDB
+from backend.auth.schema import UserInDB
+from backend.auth.model import User
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
@@ -30,11 +31,14 @@ def get_password_hash(password):
 
 
 def get_user(db:Session, email: str):
-    user = db.scalar(select(User).where(User.email == email)).first()
-    return UserInDB(user)
+    user = db.scalars(select(User).where(User.email == email)).first()
+    if not user:
+        return None
+    return UserInDB(username=user.username,email=user.email,hashed_password=user.hashed_password)
 
 
 def authenticate_user(db:Annotated[Session,Depends(get_session)], email: str, password: str):
+   
     user = get_user(db, email)
     if not user:
         verify_password(password,DUMMY_HASH)
